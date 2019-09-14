@@ -17,23 +17,6 @@ function fetchData(url_api) {
   });
 };
 
-// fetchData(API, function (error1, data1) {
-//   console.log('entered Callback');
-//   if (error1) return console.error('Error' + ' ' + error1);
-  
-//   fetchData(API + data1.results[0].id, function (error2, data2) {
-//     if (error2) return console.error(error1);
-  
-//     fetchData(data2.origin.url, function (error3, data3) {
-//       if (error3) return console.error(error3);
-  
-//       console.log('Personajes:' + ' ' + data1.info.count);
-//       console.log('Primer Personaje:' + ' ' + data2.name);
-//       console.log('Dimensión:' + ' ' + data3.dimension);
-//     });
-//   });
-// });
-
 var dataGlobal = Array();
 fetchData(API).then(data1=>{
   //console.log(data1);
@@ -49,3 +32,22 @@ fetchData(API).then(data1=>{
   console.log('Dimensión:' + ' ' + dataGlobal[2].dimension);
 });
 
+
+
+
+async function fetchAllData(){
+try{
+  let  data1 = await fetchData(API);
+  let data2 = await fetchData(API + data1.results[0].id);
+  let data3 = await fetchData(data2.origin.url);
+  console.log('//////let-await////');
+  console.log('Personajes:' + ' ' + data1.info.count);
+  console.log('Primer Personaje:' + ' ' + data2.name);  
+  console.log('Dimensión:' + ' ' + data3.dimension);
+}catch(error){
+  errorCallBack(error);
+}
+  
+
+}
+fetchAllData();
